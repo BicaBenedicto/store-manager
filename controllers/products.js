@@ -5,9 +5,10 @@ const get = async (_req, res, _next) => {
   return res.status(200).json(products);
 };
 
-const getById = async (req, res, _next) => {
+const getById = async (req, res, next) => {
   const { id } = req.params;
   const [products] = await ProductsServices.getById(Number(id));
+  if (!products) return next('idNotFound');
   return res.status(200).json(products);
 };
 

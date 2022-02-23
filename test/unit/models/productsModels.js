@@ -29,3 +29,18 @@ describe('Verifica model de produtos', () => {
     expect(response).to.be.an('object');
   });
 });
+
+describe('Verifica erros de model de produtos', () => {
+  before(async () => {
+    const execute = [[], []];
+
+    sinon.stub(connection, 'execute').resolves(execute);
+  });
+
+  it('get com id não existente retorna o esperado', async () => {
+    const response = await ProductsModels.getById(10);
+
+    expect(response).to.be.an('array');
+    expect(response).to.be.length(0);
+  });
+});
