@@ -5,9 +5,6 @@ const route = express();
 
 route.get('/', ProductsController.get);
 
-route.get('/:id', (req, res, _next) => {
-  const { id } = req.params;
-  return res.send(200).json();
-});
+route.get('/:id', ProductsController.getById);
 
 module.exports = route;

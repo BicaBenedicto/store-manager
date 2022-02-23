@@ -1,9 +1,14 @@
 const ProductsModels = require('../models/products');
 
-const ProductsServices = async () => {
+const get = async () => {
   return ProductsModels.getAll();
 };
 
+const getById = async (id) => {
+  return ProductsModels.getById(id);
+};
+
 module.exports = {
-  ProductsServices,
+  get,
+  getById,
 };
