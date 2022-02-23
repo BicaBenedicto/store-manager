@@ -1,20 +1,26 @@
 const { expect } = require('chai');
-const { jsonTypesStrict } = require('frisby/src/frisby/expects');
 const sinon = require('sinon');
-const ProductsController = require('../../../controllers/products');
+const SalesController = require('../../../controllers/sales');
 const ErrorsMiddleware = require('../../../errors');
 const connection = require('../../../models/connection');
 
-describe('Verifica controller de produtos', () => {
+describe('Verifica controller de sales', () => {
   const response = {};
   const request = {};
 
   before(async () => {
-    const execute = [[{
-      id: 1,
-      name: "produto A",
-      quantity: 10
-    }], []];
+    const execute = [[
+      {
+        "date": "2021-09-09T04:54:29.000Z",
+        "productId": 1,
+        "quantity": 2
+      },
+      {
+        "date": "2021-09-09T04:54:54.000Z",
+        "productId": 2,
+        "quantity": 2
+      }
+    ], []];
 
     sinon.stub(connection, 'execute').resolves(execute);
     request.body = {};
@@ -34,18 +40,18 @@ describe('Verifica controller de produtos', () => {
   });
 
   it('rota volta status de 200 ao utilizar get', async () => {
-    await ProductsController.get(request, response);
+    await SalesController.get(request, response);
 
     expect(response.status.calledWith(200)).to.be.equal(true);
   });
 
   it('rota volta status de 200 ao utilizar get procurando por id', async () => {
-    await ProductsController.getById(request, response);
+    await SalesController.getById(request, response);
     expect(response.status.calledWith(200)).to.be.equal(true);
   });
 });
 
-describe('Verifica erros de controller em produtos', () => {
+describe('Verifica erros de controller em sales', () => {
   const response = {};
   const request = {};
   let next;
@@ -72,12 +78,12 @@ describe('Verifica erros de controller em produtos', () => {
   });
 
   it('controller executa next de error em get procurando por id não existente', async () => {
-    await ProductsController.getById(request, response, next);
-    expect(next.calledWith('productNotFound')).to.be.equal(true);
+    await SalesController.getById(request, response, next);
+    expect(next.calledWith('saleNotFound')).to.be.equal(true);
   });
 
   it('rota volta status de 404 ao utilizar get procurando por id não existente', async () => {
-    await ErrorsMiddleware('productNotFound', request, response);
+    await ErrorsMiddleware('saleNotFound', request, response);
     expect(response.status.calledWith(404)).to.be.equal(true);
   });
 });
