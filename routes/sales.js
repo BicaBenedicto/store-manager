@@ -1,14 +1,10 @@
 const express = require('express');
+const SalesControllers = require('../controllers/sales');
 
 const route = express();
 
-route.get('/', (req, res, next) => {
-  return res.send(200).json();
-});
+route.get('/', SalesControllers.get);
 
-route.get('/:id', (req, res, next) => {
-  const { id } = req.params;
-  return res.send(200).json();
-});
+route.get('/:id', SalesControllers.getById);
 
 module.exports = route;

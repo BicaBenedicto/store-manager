@@ -73,11 +73,11 @@ describe('Verifica erros de controller em produtos', () => {
 
   it('controller executa next de error em get procurando por id não existente', async () => {
     await ProductsController.getById(request, response, next);
-    expect(next.calledWith('idNotFound')).to.be.equal(true);
+    expect(next.calledWith('productNotFound')).to.be.equal(true);
   });
 
   it('rota volta status de 404 ao utilizar get procurando por id não existente', async () => {
-    await ErrorsMiddleware('idNotFound', request, response);
+    await ErrorsMiddleware('productNotFound', request, response);
     expect(response.status.calledWith(404)).to.be.equal(true);
   });
 });

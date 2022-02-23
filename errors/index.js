@@ -1,7 +1,11 @@
 const ERRORS = {
-  idNotFound: {
+  productNotFound: {
     code: 404,
     message: 'Product not found',
+  },
+  saleNotFound: {
+    code: 404,
+    message: 'Sale not found',
   },
 };
 
