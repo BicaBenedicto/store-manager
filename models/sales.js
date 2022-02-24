@@ -33,17 +33,22 @@ const getById = async (id) => {
   return products;
 };
 
-const create = async (productId, quantity) => {
-  const products = await connection.execute(
-    `INSERT INTO StoreManager.sale_product
-    (product_id, quantity) VALUES (?, ?);`, [productId, quantity],
-  );
+const createSaleId = async () => {
+  const [sales] = await connection.execute('INSERT INTO StoreManager.sales () VALUES ();');
+  return sales.insertId;
+};
 
-  return products;
+const create = async (saleId, productId, quantity) => {
+  await connection.execute(
+    `INSERT INTO StoreManager.sales_products
+    (sale_id, product_id, quantity) VALUES (?, ?, ?);`, [saleId, productId, quantity],
+  );
+  return { productId, quantity };
 };
 
 module.exports = {
   getAll,
   getById,
+  createSaleId,
   create,
 };

@@ -16,12 +16,11 @@ const getById = async (req, res, next) => {
 const create = async (req, res, next) => {
   const { body } = req;
   
-  const newProductValidate = validateNewSale(body);
+  const newProductValidate = body.map((obj) => validateNewSale(obj)).find((obj) => obj);
   if (newProductValidate) return next(newProductValidate);
 
-  const { productId, quantity } = body;
-  await SalesServices.create(productId, quantity);
-  return res.status(201);
+  const response = await SalesServices.create(body);
+  return res.status(201).json(response);
 };
 
 module.exports = {

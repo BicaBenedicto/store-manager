@@ -10,7 +10,7 @@ const validatesQuantity = (quantity) => {
 };
 
 const validateNewSale = (body) => {
-  const { productId, quantity } = body[0];
+  const { productId, quantity } = body;
 
   if (validatesQuantity(quantity)) return validatesQuantity(quantity);
   if (validateId(productId)) return validateId(productId);
