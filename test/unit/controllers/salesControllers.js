@@ -54,12 +54,12 @@ describe('Verifica controller de sales', () => {
 describe('Verifica controller de sales com rota post', () => {
   const response = {};
   const request = {};
-  const next = (e) => console.log(e);
+  let next;
 
   before(async () => {
-    const execute = [[]];
-
-    request.body = [{ productId: 1, quantity: 10 }];
+    const execute = [[{ productId: 1, quantity: 10 }]];
+    next = sinon.stub().returns();
+    request.body = [{ productId: 1, quantity: 5 }];
     request.params = {
       id: 1,
     };
@@ -68,12 +68,12 @@ describe('Verifica controller de sales com rota post', () => {
     .returns(response);
     response.json = sinon.stub()
     .returns();
-    sinon.stub(SalesController, 'create').resolves(response.status(201).json({}));
+    sinon.stub(connection, 'execute').resolves(execute);
 
   });
 
   after(async () => {
-    SalesController.create.restore();
+    connection.execute.restore();
   });
 
   it('rota volta status de 201 ao utilizar post', async () => {
@@ -239,5 +239,36 @@ describe('Verifica erros de controller de sales ao atualizar', () => {
   it('controller executa next de error em delete com id nao existente', async () => {
     await SalesController.remove(request, response, next);
     expect(next.calledWith('saleNotFound')).to.be.equal(true);
+  });
+});
+
+describe('Verifica erros controller de sales com rota post', () => {
+  const response = {};
+  const request = {};
+  let next;
+
+  before(async () => {
+    const execute = [[{ productId: 1, quantity: 10 }]];
+    next = sinon.stub().returns();
+    request.body = [{ productId: 1, quantity: 500 }];
+    request.params = {
+      id: 1,
+    };
+    
+    response.status = sinon.stub()
+    .returns(response);
+    response.json = sinon.stub()
+    .returns();
+    sinon.stub(connection, 'execute').resolves(execute);
+
+  });
+
+  after(async () => {
+    connection.execute.restore();
+  });
+
+  it('retorna erro de next ao utilizar post com quantidade de produto excessiva', async () => {
+    await SalesController.create(request, response, next);
+    expect(next.calledWith('quantityExcessive')).to.be.equal(true);
   });
 });
