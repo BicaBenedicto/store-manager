@@ -11,4 +11,6 @@ route.post('/', SalesControllers.create);
 
 route.put('/:id', SalesControllers.update);
 
+route.delete('/:id', SalesControllers.remove);
+
 module.exports = route;

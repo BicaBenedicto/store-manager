@@ -183,6 +183,8 @@ describe('Verifica controller de sales ao atualizar', () => {
       .returns(response);
     response.json = sinon.stub()
       .returns();
+    response.end = sinon.stub()
+      .returns();
 
   });
 
@@ -190,10 +192,16 @@ describe('Verifica controller de sales ao atualizar', () => {
     connection.execute.restore();
   });
 
-  it('rota volta status de 200 ao utilizar get', async () => {
+  it('rota volta status de 200 ao utilizar put', async () => {
     await SalesController.update(request, response);
 
     expect(response.status.calledWith(200)).to.be.equal(true);
+  });
+
+  it('rota volta status de 204 ao utilizar delete', async () => {
+    await SalesController.remove(request, response);
+
+    expect(response.status.calledWith(204)).to.be.equal(true);
   });
 });
 
@@ -226,5 +234,10 @@ describe('Verifica erros de controller de sales ao atualizar', () => {
   it('controller executa next de error em put com quantity baixa', async () => {
     await SalesController.update(request, response, next);
     expect(next.calledWith('productQuantityShort')).to.be.equal(true);
+  });
+
+  it('controller executa next de error em delete com id nao existente', async () => {
+    await SalesController.remove(request, response, next);
+    expect(next.calledWith('saleNotFound')).to.be.equal(true);
   });
 });

@@ -36,9 +36,18 @@ const update = async (saleId, body) => {
   return { saleId, itemUpdated: updated };
 };
 
+const remove = async (saleId) => {
+  const [idCreated] = await SalesModels.getById(saleId);
+  if (!idCreated) return { error: 'saleNotFound' };
+
+  const removed = await SalesModels.remove(saleId);
+  return removed;
+};
+
 module.exports = {
   get,
   getById,
   create,
   update,
+  remove,
 };
