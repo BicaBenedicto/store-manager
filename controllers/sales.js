@@ -23,8 +23,20 @@ const create = async (req, res, next) => {
   return res.status(201).json(response);
 };
 
+const update = async (req, res, next) => {
+  const { body } = req;
+  const { id } = req.params;
+
+  const newProductValidate = body.map((obj) => validateNewSale(obj)).find((obj) => obj);
+  if (newProductValidate) return next(newProductValidate);
+
+  const response = await SalesServices.update(id, body);
+  return res.status(200).json(response);
+};
+
 module.exports = {
   get,
   getById,
   create,
+  update,
 };
