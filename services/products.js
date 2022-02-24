@@ -12,11 +12,19 @@ const create = async (name, quantity) => {
 };
 
 const update = async (id, name, quantity) => {
-  const [nameCreated] = await ProductsModels.getById(id);
-  if (!nameCreated) return { error: 'productNotFound' };
+  const [idCreated] = await ProductsModels.getById(id);
+  if (!idCreated) return { error: 'productNotFound' };
 
   const [updated] = await ProductsModels.update(id, name, quantity);
   return updated;
+};
+
+const remove = async (id) => {
+  const [idCreated] = await ProductsModels.getById(id);
+  if (!idCreated) return { error: 'productNotFound' };
+
+  const deleted = await ProductsModels.remove(id);
+  return deleted;
 };
 
 module.exports = {
@@ -24,4 +32,5 @@ module.exports = {
   getById,
   create,
   update,
+  remove,
 };
