@@ -63,6 +63,8 @@ describe('Verifica controller de produtos com rota post', () => {
       .returns(response);
     response.json = sinon.stub()
       .returns();
+    response.end = sinon.stub()
+      .returns();
 
   });
 
@@ -73,6 +75,16 @@ describe('Verifica controller de produtos com rota post', () => {
   it('rota volta status de 201 ao utilizar post', async () => {
     await ProductsController.create(request, response, next);
     expect(response.status.calledWith(201)).to.be.equal(true);
+  });
+
+  it('rota volta status 204 ao utilizar delete', async () => {
+    connection.execute.restore();
+
+    const execute2 = [[{id: 1, name: 'produto A', quantity: 10 }]];
+    sinon.stub(connection, 'execute').resolves(execute2);
+
+    await ProductsController.remove(request, response, next);
+    expect(response.status.calledWith(204)).to.be.equal(true);
   });
 
   it('rota volta status de 200 ao utilizar put', async () => {
@@ -190,6 +202,11 @@ describe('Verifica erros de controller em produtos', () => {
     await ErrorsMiddleware('productNameAlreadyExists', request, response);
     expect(response.status.calledWith(409)).to.be.equal(true);
   });
+
+  it('controller executa next de error em delete com id não existente', async () => {
+    await ProductsController.update(request, response, next);
+    expect(next.calledWith('productNotFound')).to.be.equal(true);
+  });
 });
 
 describe('Verifica erros ao atualizar produto', () => {
@@ -240,11 +257,6 @@ describe('Verifica erros ao atualizar produto', () => {
 
     await ProductsController.update(request, response, next);
     expect(next.calledWith('productNotFound')).to.be.equal(true);
-  });
-
-  it('rota volta status de 404 ao utilizar em put usando id não existente', async () => {
-    await ErrorsMiddleware('productNotFound', request, response);
-    expect(response.status.calledWith(404)).to.be.equal(true);
   });
 
   it('controller executa next de error em put sem quantity no body', async () => {
