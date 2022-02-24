@@ -78,10 +78,6 @@ const remove = async (saleId) => {
   WHERE sale_id = (?)`, [saleId],
   );
 
-  // const [product] = await ProductsModels.getById(productId);
-  // const { name } = product;
-  // await ProductsModels.update(productId, name, quantity);
-
   return { response: results.affectedRows };
 };
 

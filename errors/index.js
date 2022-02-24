@@ -31,6 +31,10 @@ const ERRORS = {
     code: 409,
     message: 'Product already exists',
   },
+  quantityExcessive: {
+    code: 422,
+    message: 'Such amount is not permitted to sell',
+  },
 };
 
 const errorsGenericMiddleware = (err, _req, res, _next) => {

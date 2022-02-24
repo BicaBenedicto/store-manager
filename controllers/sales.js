@@ -20,6 +20,7 @@ const create = async (req, res, next) => {
   if (newProductValidate) return next(newProductValidate);
 
   const response = await SalesServices.create(body);
+  if (response.error) return next(response.error);
   return res.status(201).json(response);
 };
 

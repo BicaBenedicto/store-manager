@@ -1,4 +1,5 @@
 const SalesModels = require('../models/sales');
+const ProductsModels = require('../models/products');
 
 const get = async () => {
   const response = await SalesModels.getAll();
@@ -23,9 +24,13 @@ const getById = async (id) => {
 
 const create = async (body) => {
   const saleId = await SalesModels.createSaleId();
-  const created = await Promise.all(body.map(async ({ productId, quantity }) => SalesModels
-    .create(saleId, productId, quantity)));
+  const created = await Promise.all(body.map(async ({ productId, quantity }) => {
+    const [product] = await ProductsModels.getById(productId);
+    if (product.quantity <= quantity) return { error: 'quantityExcessive' };
+    return SalesModels.create(saleId, productId, quantity);
+  }));
 
+  if (created.some((product) => product.error)) return { error: 'quantityExcessive' };
   return { id: saleId, itemsSold: created };
 };
 
