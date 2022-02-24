@@ -59,21 +59,21 @@ describe('Verifica controller de sales com rota post', () => {
   before(async () => {
     const execute = [[]];
 
-    sinon.stub(connection, 'execute').resolves(execute);
     request.body = [{ productId: 1, quantity: 10 }];
     request.params = {
       id: 1,
     };
-
+    
     response.status = sinon.stub()
-      .returns(response);
+    .returns(response);
     response.json = sinon.stub()
-      .returns();
+    .returns();
+    sinon.stub(SalesController, 'create').resolves(response.status(201).json({}));
 
   });
 
   after(async () => {
-    connection.execute.restore();
+    SalesController.create.restore();
   });
 
   it('rota volta status de 201 ao utilizar post', async () => {

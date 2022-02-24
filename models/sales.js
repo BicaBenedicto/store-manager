@@ -1,4 +1,5 @@
 const connection = require('./connection');
+const ProductsModels = require('./products');
 
 const getAll = async () => {
   const [products] = await connection.execute(
@@ -43,6 +44,9 @@ const create = async (saleId, productId, quantity) => {
     `INSERT INTO StoreManager.sales_products
     (sale_id, product_id, quantity) VALUES (?, ?, ?);`, [saleId, productId, quantity],
   );
+  const [product] = await ProductsModels.getById(productId);
+  const { name } = product;
+  await ProductsModels.update(productId, name, quantity);
   return { productId, quantity };
 };
 
@@ -54,14 +58,29 @@ const update = async (saleId, productId, quantity) => {
       WHERE sale_id = (?)
       AND product_id = (?)`, [quantity, saleId, productId],
   );
+  const [product] = await ProductsModels.getById(productId);
+  const { name } = product;
+  await ProductsModels.update(productId, name, quantity);
   return { productId, quantity };
 };
 
 const remove = async (saleId) => {
+  const saleResponse = await getById(saleId);
+  saleResponse.forEach(async ({ product_id, quantity }) => {
+    const [product] = await ProductsModels.getById(product_id);
+    const { name, quantity: quantityActual } = product;
+
+    const quantityFinal = quantity + quantityActual;
+    await ProductsModels.update(product_id, name, quantityFinal);
+  });
   const [results] = await connection.execute(
     `DELETE FROM StoreManager.sales_products
   WHERE sale_id = (?)`, [saleId],
   );
+
+  // const [product] = await ProductsModels.getById(productId);
+  // const { name } = product;
+  // await ProductsModels.update(productId, name, quantity);
 
   return { response: results.affectedRows };
 };

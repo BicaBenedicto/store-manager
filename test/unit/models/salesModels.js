@@ -57,3 +57,42 @@ describe('Verifica erros de model de sales', () => {
     expect(response).to.be.length(0);
   });
 });
+
+describe('Verifica model de sales com rota post', () => {
+  const response = {};
+  const request = {};
+  const next = (e) => console.log(e);
+
+  before(async () => {
+    const execute = [[
+      {
+        "sale_id": 1,
+        "date": "2021-09-09T04:54:29.000Z",
+        "product_id": 1,
+        "quantity": 2
+      },
+      {
+        "sale_id": 1,
+        "date": "2021-09-09T04:54:54.000Z",
+        "product_id": 2,
+        "quantity": 2
+      }
+    ], []];
+
+    sinon.stub(connection, 'execute').resolves(execute);
+
+
+  });
+
+  after(async () => {
+    connection.execute.restore();
+  });
+
+  it('rota volta objeto ao utilizar post', async () => {
+    const saleId = 1;
+    const productId = 1;
+    const quantity = 11;
+    const response = await SalesModels.create(saleId, productId, quantity);
+    expect(response).to.be.an('object');
+  });
+});
