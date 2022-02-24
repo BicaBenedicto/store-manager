@@ -4,16 +4,16 @@ const validateId = (id) => {
 };
 
 const validatesQuantity = (quantity) => {
-  const MIN_QUANTITY = 1;
-  if (!quantity) return 'productQuantityEmpty';
-  if (quantity < MIN_QUANTITY) return 'productQuantityShort';
+  if (typeof quantity !== 'number') return 'productQuantityEmpty';
+  if (quantity <= 0) return 'productQuantityShort';
   return '';
 };
 
 const validateNewSale = (body) => {
-  const { productId, quantity } = body;
-  if (validateId(productId)) return validateId(productId);
+  const { productId, quantity } = body[0];
+
   if (validatesQuantity(quantity)) return validatesQuantity(quantity);
+  if (validateId(productId)) return validateId(productId);
   return '';
 };
 

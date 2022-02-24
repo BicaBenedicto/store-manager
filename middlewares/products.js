@@ -2,14 +2,13 @@ const validateName = (name) => {
   const MIN_NAME = 5;
   if (!name) return 'productNameEmpty';
   if (name.length < MIN_NAME) return 'productNameShort';
-  return '';
+  return false;
 };
 
 const validatesQuantity = (quantity) => {
-  const MIN_QUANTITY = 1;
-  if (!quantity) return 'productQuantityEmpty';
-  if (quantity < MIN_QUANTITY) return 'productQuantityShort';
-  return '';
+  if (typeof quantity !== 'number') return 'productQuantityEmpty';
+  if (quantity <= 0) return 'productQuantityShort';
+  return false;
 };
 
 const validateNewProduct = (body) => {
