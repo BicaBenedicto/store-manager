@@ -1,7 +1,5 @@
-const validateName = (name) => {
-  const MIN_NAME = 5;
-  if (!name) return 'productNameEmpty';
-  if (name.length < MIN_NAME) return 'productNameShort';
+const validateId = (id) => {
+  if (!id) return 'saleIdEmpty';
   return '';
 };
 
@@ -12,13 +10,13 @@ const validatesQuantity = (quantity) => {
   return '';
 };
 
-const validateNewProduct = (body) => {
-  const { name, quantity } = body;
-  if (validateName(name)) return validateName(name);
+const validateNewSale = (body) => {
+  const { productId, quantity } = body;
+  if (validateId(productId)) return validateId(productId);
   if (validatesQuantity(quantity)) return validatesQuantity(quantity);
   return '';
 };
 
 module.exports = {
-  validateNewProduct,
+  validateNewSale,
 };

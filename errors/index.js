@@ -7,6 +7,26 @@ const ERRORS = {
     code: 404,
     message: 'Sale not found',
   },
+  productNameEmpty: {
+    code: 400,
+    message: '"name" is required',
+  },
+  productNameShort: {
+    code: 422,
+    message: '"name" length must be at least 5 characters long',
+  },
+  productQuantityEmpty: {
+    code: 400,
+    message: '"quantity" is required',
+  },
+  productQuantityShort: {
+    code: 422,
+    message: '"quantity" must be greater than or equal to 1',
+  },
+  saleIdEmpty: {
+    code: 400,
+    message: '"productId" is required',
+  },
 };
 
 const errorsGenericMiddleware = (err, _req, res, _next) => {

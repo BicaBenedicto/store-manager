@@ -21,7 +21,10 @@ const getById = async (id) => {
   return newResponse;
 };
 
+const create = async (productId, quantity) => SalesModels.create(productId, quantity);
+
 module.exports = {
   get,
   getById,
+  create,
 };
