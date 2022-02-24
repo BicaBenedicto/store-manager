@@ -34,10 +34,11 @@ const getById = async (id) => {
 };
 
 const create = async (productId, quantity) => {
-  const [products] = await connection.execute(
+  const products = await connection.execute(
     `INSERT INTO StoreManager.sale_product
     (product_id, quantity) VALUES (?, ?);`, [productId, quantity],
   );
+
   return products;
 };
 

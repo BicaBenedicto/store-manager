@@ -14,8 +14,8 @@ const getById = async (req, res, next) => {
 };
 
 const create = async (req, res, next) => {
-  const [body] = req.body;
-  console.log(body);
+  const { body } = req;
+  
   const newProductValidate = validateNewSale(body);
   if (newProductValidate) return next(newProductValidate);
 

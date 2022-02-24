@@ -27,6 +27,10 @@ const ERRORS = {
     code: 400,
     message: '"productId" is required',
   },
+  productNameAlreadyExists: {
+    code: 409,
+    message: 'Product already exists',
+  },
 };
 
 const errorsGenericMiddleware = (err, _req, res, _next) => {

@@ -20,8 +20,9 @@ const create = async (req, res, next) => {
   if (newProductValidate) return next(newProductValidate);
 
   const { name, quantity } = body;
-  await ProductsServices.create(name, quantity);
-  return res.status(201);
+  const response = await ProductsServices.create(name, quantity);
+  if (response.error) return next(response.error);
+  return res.status(201).json(response);
 };
 
 module.exports = {
