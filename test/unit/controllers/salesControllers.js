@@ -92,7 +92,7 @@ describe('Verifica erros de controller em sales', () => {
     next = sinon.stub().returns();
 
     sinon.stub(connection, 'execute').resolves(execute);
-    request.body = [{ productId: '', quantity: '' }];
+    request.body = { productId: '', quantity: '' };
     request.params = {
       id: 10,
     };
@@ -123,7 +123,7 @@ describe('Verifica erros de controller em sales', () => {
   });
 
   it('controller executa next de error em post sem productId', async () => {
-    request.body[0].quantity = 10;
+    request.body.quantity = 10;
     await SalesController.create(request, response, next);
     expect(next.calledWith('saleIdEmpty')).to.be.equal(true);
   });
@@ -133,23 +133,24 @@ describe('Verifica erros de controller em sales', () => {
     expect(response.status.calledWith(400)).to.be.equal(true);
   });
 
-  // it('controller executa next de error em post sem quantity', async () => {
-  //   request.body[0].productId = 1;
-  //   await SalesController.create(request, response, next);
-  //   expect(next.calledWith('productQuantityEmpty')).to.be.equal(true);
-  // });
+  it('controller executa next de error em post sem quantity', async () => {
+    request.body.productId = 1;
+    request.body.quantity = '';
+    await SalesController.create(request, response, next);
+    expect(next.calledWith('productQuantityEmpty')).to.be.equal(true);
+  });
 
   it('rota volta status de 400 ao utilizar post sem quantity', async () => {
     await ErrorsMiddleware('productQuantityEmpty', request, response);
     expect(response.status.calledWith(400)).to.be.equal(true);
   });
 
-  // it('controller executa next de error em post com quantity baixa', async () => {
-  //   request.body[0].productId = 1;
-  //   request.body[0].quantity = -5;
-  //   await SalesController.create(request, response, next);
-  //   expect(next.calledWith('productQuantityShort')).to.be.equal(true);
-  // });
+  it('controller executa next de error em post com quantity baixa', async () => {
+    request.body.productId = 1;
+    request.body.quantity = -5;
+    await SalesController.create(request, response, next);
+    expect(next.calledWith('productQuantityShort')).to.be.equal(true);
+  });
 
   it('rota volta status de 422 ao utilizar post com quantity baixa', async () => {
     await ErrorsMiddleware('productQuantityShort', request, response);

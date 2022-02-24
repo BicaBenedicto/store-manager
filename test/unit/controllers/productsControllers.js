@@ -164,4 +164,20 @@ describe('Verifica erros de controller em produtos', () => {
     await ErrorsMiddleware('productQuantityShort', request, response);
     expect(response.status.calledWith(422)).to.be.equal(true);
   });
+
+  it('controller executa next de error em post com nome já existente', async () => {
+    connection.execute.restore();
+    const execute2 = [[{ id: 1, name: 'Produto A', quantity: 10}], []];
+    sinon.stub(connection, 'execute').resolves(execute2);
+
+    request.body.name = 'Produto A';
+    request.body.quantity = 10;
+    await ProductsController.create(request, response, next);
+    expect(next.calledWith('productNameAlreadyExists')).to.be.equal(true);
+  });
+
+  it('rota volta status de 422 ao utilizar post com nome já existente', async () => {
+    await ErrorsMiddleware('productNameAlreadyExists', request, response);
+    expect(response.status.calledWith(409)).to.be.equal(true);
+  });
 });

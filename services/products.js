@@ -7,7 +7,7 @@ const getById = async (id) => ProductsModels.getById(id);
 const create = async (name, quantity) => {
   const [nameCreated] = await ProductsModels.findByName(name);
   if (nameCreated) return { error: 'productNameAlreadyExists' };
-  const created = await ProductsModels.create(name, quantity);
+  const [created] = await ProductsModels.create(name, quantity);
   return created;
 };
 
