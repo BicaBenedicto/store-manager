@@ -60,7 +60,7 @@ describe('Verifica controller de sales com rota post', () => {
     const execute = [[]];
 
     sinon.stub(connection, 'execute').resolves(execute);
-    request.body = { productId: 1, quantity: 10 };
+    request.body = [{ productId: 1, quantity: 10 }];
     request.params = {
       id: 1,
     };
@@ -92,7 +92,7 @@ describe('Verifica erros de controller em sales', () => {
     next = sinon.stub().returns();
 
     sinon.stub(connection, 'execute').resolves(execute);
-    request.body = { productId: '', quantity: '' };
+    request.body = [{ productId: '', quantity: '' }];
     request.params = {
       id: 10,
     };
@@ -123,7 +123,7 @@ describe('Verifica erros de controller em sales', () => {
   });
 
   it('controller executa next de error em post sem productId', async () => {
-    request.body.quantity = 10;
+    request.body[0].quantity = 10;
     await SalesController.create(request, response, next);
     expect(next.calledWith('saleIdEmpty')).to.be.equal(true);
   });
@@ -134,8 +134,8 @@ describe('Verifica erros de controller em sales', () => {
   });
 
   it('controller executa next de error em post sem quantity', async () => {
-    request.body.productId = 1;
-    request.body.quantity = '';
+    request.body[0].productId = 1;
+    request.body[0].quantity = '';
     await SalesController.create(request, response, next);
     expect(next.calledWith('productQuantityEmpty')).to.be.equal(true);
   });
@@ -146,8 +146,8 @@ describe('Verifica erros de controller em sales', () => {
   });
 
   it('controller executa next de error em post com quantity baixa', async () => {
-    request.body.productId = 1;
-    request.body.quantity = -5;
+    request.body[0].productId = 1;
+    request.body[0].quantity = -5;
     await SalesController.create(request, response, next);
     expect(next.calledWith('productQuantityShort')).to.be.equal(true);
   });

@@ -74,6 +74,16 @@ describe('Verifica controller de produtos com rota post', () => {
     await ProductsController.create(request, response, next);
     expect(response.status.calledWith(201)).to.be.equal(true);
   });
+
+  it('rota volta status de 200 ao utilizar put', async () => {
+    connection.execute.restore();
+
+    const execute2 = [[{id: 1, name: 'produto A', quantity: 10 }]];
+    sinon.stub(connection, 'execute').resolves(execute2);
+
+    await ProductsController.update(request, response, next);
+    expect(response.status.calledWith(200)).to.be.equal(true);
+  });
 });
 
 describe('Verifica erros de controller em produtos', () => {
@@ -179,5 +189,107 @@ describe('Verifica erros de controller em produtos', () => {
   it('rota volta status de 422 ao utilizar post com nome já existente', async () => {
     await ErrorsMiddleware('productNameAlreadyExists', request, response);
     expect(response.status.calledWith(409)).to.be.equal(true);
+  });
+});
+
+describe('Verifica erros ao atualizar produto', () => {
+  const response = {};
+  const request = {};
+  let next;
+
+  before(() => {
+    const execute = [[{ id: 1, name: 'Produto A', quantity: 10}]];
+    next = sinon.stub().returns();
+
+    sinon.stub(connection, 'execute').resolves(execute);
+    request.body = { name: '', quantity: '' };
+    request.params = {
+      id: 1,
+    };
+
+    response.status = sinon.stub()
+      .returns(response);
+    response.json = sinon.stub()
+      .returns();
+
+  });
+
+  beforeEach(() => {
+    request.body = {
+      name: '',
+      quantity: '',
+    };
+    request.params = {
+      id: 1,
+    };
+  });
+
+  after(async () => {
+    connection.execute.restore();
+  });
+
+  it('controller executa next de error em put usando id não existente', async () => {
+    connection.execute.restore();
+    sinon.stub(connection, 'execute').resolves([[]]);
+    
+    request.params = {
+      id: 5,
+    };
+    request.body.name = 'Produto O';
+    request.body.quantity = 10;
+
+    await ProductsController.update(request, response, next);
+    expect(next.calledWith('productNotFound')).to.be.equal(true);
+  });
+
+  it('rota volta status de 404 ao utilizar em put usando id não existente', async () => {
+    await ErrorsMiddleware('productNotFound', request, response);
+    expect(response.status.calledWith(404)).to.be.equal(true);
+  });
+
+  it('controller executa next de error em put sem quantity no body', async () => {
+    request.body.name = 'Produto A';
+    await ProductsController.update(request, response, next);
+    expect(next.calledWith('productQuantityEmpty')).to.be.equal(true);
+  });
+
+  it('rota volta status de 400 ao utilizar put sem quantity no body', async () => {
+    await ErrorsMiddleware('productQuantityEmpty', request, response);
+    expect(response.status.calledWith(400)).to.be.equal(true);
+  });
+
+  it('controller executa next de error em put com nome curto', async () => {
+    request.body.name = 'Pro';
+    request.body.quantity = 10;
+    await ProductsController.update(request, response, next);
+    expect(next.calledWith('productNameShort')).to.be.equal(true);
+  });
+
+  it('rota volta status de 422 ao utilizar put com nome curto', async () => {
+    await ErrorsMiddleware('productNameShort', request, response);
+    expect(response.status.calledWith(422)).to.be.equal(true);
+  });
+
+  it('controller executa next de error em put sem nome no body', async () => {
+    request.body.quantity = 10;
+    await ProductsController.update(request, response, next);
+    expect(next.calledWith('productNameEmpty')).to.be.equal(true);
+  });
+
+  it('rota volta status de 400 ao utilizar put sem nome no body', async () => {
+    await ErrorsMiddleware('productNameEmpty', request, response);
+    expect(response.status.calledWith(400)).to.be.equal(true);
+  });
+
+  it('controller executa next de error em put com quantity negativa', async () => {
+    request.body.name = 'Produto A';
+    request.body.quantity = -1;
+    await ProductsController.update(request, response, next);
+    expect(next.calledWith('productQuantityShort')).to.be.equal(true);
+  });
+
+  it('rota volta status de 422 ao utilizar put com quantity baixa', async () => {
+    await ErrorsMiddleware('productQuantityShort', request, response);
+    expect(response.status.calledWith(422)).to.be.equal(true);
   });
 });
