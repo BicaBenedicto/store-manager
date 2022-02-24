@@ -29,11 +29,11 @@ const create = async (name, quantity) => {
     `INSERT INTO StoreManager.products
     (name, quantity) VALUES (?, ?);`, [name, quantity],
   );
-  const newProduct = {
+  const newProduct = [{
     id: products.insertId,
     name,
     quantity,
-  };
+  }];
   return newProduct;
 };
 

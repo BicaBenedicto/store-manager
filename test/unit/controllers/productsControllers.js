@@ -5,9 +5,10 @@ const ProductsController = require('../../../controllers/products');
 const ErrorsMiddleware = require('../../../errors');
 const connection = require('../../../models/connection');
 
-describe('Verifica controller de produtos', () => {
+describe('Verifica controller de produtos com rota get', () => {
   const response = {};
   const request = {};
+  const next = (e) => console.log(e);
 
   before(async () => {
     const execute = [[{
@@ -17,7 +18,7 @@ describe('Verifica controller de produtos', () => {
     }], []];
 
     sinon.stub(connection, 'execute').resolves(execute);
-    request.body = { name: 'produto A', quantity: 10 };
+    request.body = { name: 'produto O', quantity: 10 };
     request.params = {
       id: 1,
     };
@@ -42,9 +43,35 @@ describe('Verifica controller de produtos', () => {
     await ProductsController.getById(request, response);
     expect(response.status.calledWith(200)).to.be.equal(true);
   });
+});
+
+describe('Verifica controller de produtos com rota post', () => {
+  const response = {};
+  const request = {};
+  const next = (e) => console.log(e);
+
+  before(async () => {
+    const execute = [[]];
+
+    sinon.stub(connection, 'execute').resolves(execute);
+    request.body = { name: 'produto O', quantity: 10 };
+    request.params = {
+      id: 1,
+    };
+
+    response.status = sinon.stub()
+      .returns(response);
+    response.json = sinon.stub()
+      .returns();
+
+  });
+
+  after(async () => {
+    connection.execute.restore();
+  });
 
   it('rota volta status de 201 ao utilizar post', async () => {
-    await ProductsController.create(request, response);
+    await ProductsController.create(request, response, next);
     expect(response.status.calledWith(201)).to.be.equal(true);
   });
 });

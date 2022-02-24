@@ -28,6 +28,11 @@ describe('Verifica model de produtos', () => {
     const [response] = await ProductsModels.getById(1);
     expect(response).to.be.an('object');
   });
+
+  it('post retorna o esperado', async () => {
+    const [response] = await ProductsModels.create('Produto 0', 6);
+    expect(response).to.be.an('object');
+  });
 });
 
 describe('Verifica erros de model de produtos', () => {
