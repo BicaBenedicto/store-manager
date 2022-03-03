@@ -1,23 +1,65 @@
-const validateName = (name) => {
-  const MIN_NAME = 5;
-  if (!name) return 'productNameEmpty';
-  if (name.length < MIN_NAME) return 'productNameShort';
-  return false;
+const ProductsServices = require('../services/products');
+const { validateNewProduct } = require('../utils/validates');
+
+const get = async (_req, _res, _next) => {
+  const products = await ProductsServices.get();
+
+  req.results = products;
+  return next();
 };
 
-const validatesQuantity = (quantity) => {
-  if (typeof quantity !== 'number') return 'productQuantityEmpty';
-  if (quantity <= 0) return 'productQuantityShort';
-  return false;
+const getById = async (req, _res, next) => {
+  const { id } = req.params;
+  const [products] = await ProductsServices.getById(Number(id));
+  if (!products) return next('productNotFound');
+
+  req.results = products;
+  return next();
 };
 
-const validateNewProduct = (body) => {
+const create = async (req, _res, next) => {
+  const { body } = req;
+  
+  const newProductValidate = validateNewProduct(body);
+  if (newProductValidate) return next(newProductValidate);
+
   const { name, quantity } = body;
-  if (validateName(name)) return validateName(name);
-  if (validatesQuantity(quantity)) return validatesQuantity(quantity);
-  return '';
+  const response = await ProductsServices.create(name, quantity);
+  if (response.error) return next(response.error);
+
+  req.results = response;
+  return next();
+};
+
+const update = async (req, _res, next) => {
+  const { id } = req.params;
+  const { body } = req;
+
+  const newProductValidate = validateNewProduct(body);
+  if (newProductValidate) return next(newProductValidate);
+
+  const { name, quantity } = body;
+  const response = await ProductsServices.update(id, name, quantity);
+
+  if (response.error) return next(response.error);
+
+  req.results = response;
+  return next();
+};
+
+const remove = async (req, _res, next) => {
+  const { id } = req.params;
+
+  const response = await ProductsServices.remove(id);
+  if (response.error) return next(response.error);
+
+  return next();
 };
 
 module.exports = {
-  validateNewProduct,
+  get,
+  getById,
+  create,
+  update,
+  remove,
 };
