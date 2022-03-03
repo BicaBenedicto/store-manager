@@ -38,7 +38,7 @@ const ERRORS = {
 };
 
 const errorsGenericMiddleware = (err, _req, res, _next) => {
-  if (!ERRORS[err]) return console.log(err);
+  if (!ERRORS[err]) return res.status(500).json({ message: err.message });
 
   const { code, message } = ERRORS[err];
   return res.status(code).json({ message });
