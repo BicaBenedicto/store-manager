@@ -1,7 +1,7 @@
 const ProductsServices = require('../services/products');
 const { validateNewProduct } = require('../utils/validates');
 
-const get = async (_req, _res, _next) => {
+const get = async (req, _res, next) => {
   const products = await ProductsServices.get();
 
   req.results = products;

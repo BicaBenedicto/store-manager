@@ -19,9 +19,7 @@ const update = async (req, res, _next) => {
   return res.status(200).json(results);
 };
 
-const remove = async (_req, res, _next) => {
-  return res.status(204).end();
-};
+const remove = async (_req, res, _next) => res.status(204).end();
 
 module.exports = {
   get,

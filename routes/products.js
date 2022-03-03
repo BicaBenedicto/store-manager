@@ -4,7 +4,7 @@ const ProductsMiddleware = require('../middlewares/products');
 
 const route = express();
 
-route.delete('/:id', ProductsMiddleware.remove , ProductsController.remove);
+route.delete('/:id', ProductsMiddleware.remove, ProductsController.remove);
 
 route.get('/', ProductsMiddleware.get, ProductsController.get);
 

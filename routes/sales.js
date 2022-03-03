@@ -4,7 +4,7 @@ const SalesMiddleware = require('../middlewares/sales');
 
 const route = express();
 
-route.get('/',SalesMiddleware.get, SalesControllers.get);
+route.get('/', SalesMiddleware.get, SalesControllers.get);
 
 route.get('/:id', SalesMiddleware.getById, SalesControllers.getById);
 
