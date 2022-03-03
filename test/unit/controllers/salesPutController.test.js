@@ -1,18 +1,25 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const ProductsController = require('../../../controllers/products');
-const connection = require('../../../models/connection');
+const SalesController = require('../../../controllers/sales.controller');
+const connection = require('../../../models/connection.model');
 
-describe('Verifica controller de produtos com rota put', () => {
+describe('Verifica controller de sales com rota put', () => {
   const response = {};
   const request = {};
-  const next = (e) => console.log(e);
 
   before(async () => {
-    const execute = [[]];
+    const execute = [[{
+      "saleId": 1,
+      "itemUpdated": [
+        {
+          "productId": 1,
+          "quantity": 6
+        }
+      ]
+    }], []];
 
     sinon.stub(connection, 'execute').resolves(execute);
-    request.body = { name: 'produto O', quantity: 10 };
+    request.body = [{ productId: 1, quantity: 10 }];
     request.params = {
       id: 1,
     };
@@ -31,12 +38,8 @@ describe('Verifica controller de produtos com rota put', () => {
   });
 
   it('rota volta status de 200 ao utilizar put', async () => {
-    connection.execute.restore();
+    await SalesController.update(request, response);
 
-    const execute2 = [[{id: 1, name: 'produto A', quantity: 10 }]];
-    sinon.stub(connection, 'execute').resolves(execute2);
-
-    await ProductsController.update(request, response, next);
     expect(response.status.calledWith(200)).to.be.equal(true);
   });
 });

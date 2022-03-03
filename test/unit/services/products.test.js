@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const connection = require('../../../models/connection');
-const ProductsServices = require('../../../services/products');
+const connection = require('../../../models/connection.model');
+const ProductsServices = require('../../../services/products.service');
 
 describe('Verifica services da rota products', () => {
   before(() => {

@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const ProductsController = require('../../../middlewares/products');
-const connection = require('../../../models/connection');
+const ProductsController = require('../../../middlewares/products.middleware');
+const connection = require('../../../models/connection.model');
 
 describe('Verifica erros de controller em produtos', () => {
   const response = {};

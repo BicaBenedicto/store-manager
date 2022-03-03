@@ -1,4 +1,4 @@
-const connection = require('./connection');
+const connection = require('./connection.model');
 
 const getAll = async () => {
   const [products] = await connection.execute(

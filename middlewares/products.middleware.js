@@ -1,5 +1,5 @@
-const ProductsServices = require('../services/products');
-const { validateNewProduct } = require('../utils/validates');
+const ProductsServices = require('../services/products.service');
+const { validateNewProduct } = require('../utils/validates.util');
 
 const get = async (req, _res, next) => {
   const products = await ProductsServices.get();

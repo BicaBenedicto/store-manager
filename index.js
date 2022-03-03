@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
-const SalesRouter = require('./routes/sales');
-const ProductsRouter = require('./routes/products');
+const SalesRouter = require('./routes/sales.routes');
+const ProductsRouter = require('./routes/products.routes');
 const errorsGenericMiddleware = require('./errors');
 
 const app = express();

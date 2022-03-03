@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const SalesController = require('../../../controllers/sales');
-const connection = require('../../../models/connection');
+const SalesController = require('../../../controllers/sales.controller');
+const connection = require('../../../models/connection.model');
 
 describe('Verifica controller de sales com rota delete', () => {
   const response = {};

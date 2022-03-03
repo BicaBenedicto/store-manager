@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const ProductsModels = require('../../../models/products');
-const connection = require('../../../models/connection');
+const ProductsModels = require('../../../models/products.model');
+const connection = require('../../../models/connection.model');
 
 describe('Verifica model de produtos', () => {
 

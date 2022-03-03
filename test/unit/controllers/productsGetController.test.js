@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const ProductsController = require('../../../controllers/products');
-const connection = require('../../../models/connection');
+const ProductsController = require('../../../controllers/products.controller');
+const connection = require('../../../models/connection.model');
 
 describe('Verifica controller de produtos com rota get', () => {
   const response = {};
