@@ -8,7 +8,7 @@ describe('Verifica controller de produtos com rota delete', () => {
   const request = {};
   const next = (e) => console.log(e);
 
-  before(async () => {
+  beforeAll(async () => {
     const execute = [[]];
 
     sinon.stub(connection, 'execute').resolves(execute);
@@ -26,7 +26,7 @@ describe('Verifica controller de produtos com rota delete', () => {
 
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 

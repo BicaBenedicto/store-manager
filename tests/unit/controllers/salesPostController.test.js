@@ -8,7 +8,7 @@ describe('Verifica controller de sales com rota post', () => {
   const request = {};
   let next;
 
-  before(async () => {
+  beforeAll(async () => {
     const execute = [[{ productId: 1, quantity: 10 }]];
     next = sinon.stub().returns();
     request.body = [{ productId: 1, quantity: 5 }];
@@ -24,7 +24,7 @@ describe('Verifica controller de sales com rota post', () => {
 
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 

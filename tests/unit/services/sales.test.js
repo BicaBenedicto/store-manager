@@ -5,14 +5,14 @@ const SalesServices = require('../../../services/sales.service');
 
 describe('Verifica services da rota sales', () => {
   const request = {};
-  before(() => {
+  beforeAll(() => {
     const execute = [[{ productId: 1, quantity: 10 }]];
 
     sinon.stub(connection, 'execute').resolves(execute);
     request.body = [{ productId: 1, quantity: 5 }];
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 

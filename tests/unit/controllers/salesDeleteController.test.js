@@ -7,7 +7,7 @@ describe('Verifica controller de sales com rota delete', () => {
   const response = {};
   const request = {};
 
-  before(async () => {
+  beforeAll(async () => {
     const execute = [[{
       "saleId": 1,
       "itemUpdated": [
@@ -33,7 +33,7 @@ describe('Verifica controller de sales com rota delete', () => {
 
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 

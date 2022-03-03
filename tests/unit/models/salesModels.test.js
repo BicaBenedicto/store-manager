@@ -5,7 +5,7 @@ const connection = require('../../../models/connection.model');
 
 describe('Verifica model de sales', () => {
 
-  before(async () => {
+  beforeAll(async () => {
     const execute = [[
       {
         "sale_id": 1,
@@ -24,7 +24,7 @@ describe('Verifica model de sales', () => {
     sinon.stub(connection, 'execute').resolves(execute);
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 
@@ -40,13 +40,13 @@ describe('Verifica model de sales', () => {
 });
 
 describe('Verifica erros de model de sales', () => {
-  before(async () => {
+  beforeAll(async () => {
     const execute = [[], []];
 
     sinon.stub(connection, 'execute').resolves(execute);
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 
@@ -63,7 +63,7 @@ describe('Verifica model de sales com rota post', () => {
   const request = {};
   const next = (e) => console.log(e);
 
-  before(async () => {
+  beforeAll(async () => {
     const execute = [[
       {
         "sale_id": 1,
@@ -84,7 +84,7 @@ describe('Verifica model de sales com rota post', () => {
 
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 

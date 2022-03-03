@@ -7,7 +7,7 @@ describe('Verifica se ao chamar o erro, retorna o esperado', () => {
   const request = {};
   let next;
 
-  before(() => {
+  beforeAll(() => {
     next = sinon.stub().returns();
 
     response.status = sinon.stub()

@@ -5,7 +5,7 @@ const connection = require('../../../models/connection.model');
 
 describe('Verifica model de produtos', () => {
 
-  before(async () => {
+  beforeAll(async () => {
     const execute = [[{
       id: 1,
       name: "produto A",
@@ -15,7 +15,7 @@ describe('Verifica model de produtos', () => {
     sinon.stub(connection, 'execute').resolves(execute);
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 
@@ -36,13 +36,13 @@ describe('Verifica model de produtos', () => {
 });
 
 describe('Verifica erros de model de produtos', () => {
-  before(async () => {
+  beforeAll(async () => {
     const execute = [[], []];
 
     sinon.stub(connection, 'execute').resolves(execute);
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 

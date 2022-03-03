@@ -7,7 +7,7 @@ describe('Verifica controller de produtos com rota get', () => {
   const response = {};
   const request = {};
 
-  before(async () => {
+  beforeAll(async () => {
     const execute = [[{
       id: 1,
       name: "produto A",
@@ -27,7 +27,7 @@ describe('Verifica controller de produtos com rota get', () => {
 
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 

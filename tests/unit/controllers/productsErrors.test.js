@@ -8,7 +8,7 @@ describe('Verifica erros de controller em produtos', () => {
   const request = {};
   let next;
 
-  before(() => {
+  beforeAll(() => {
     const execute = [[], []];
     next = sinon.stub().returns();
 
@@ -32,7 +32,7 @@ describe('Verifica erros de controller em produtos', () => {
     };
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 
@@ -90,7 +90,7 @@ describe('Verifica erros ao atualizar produto', () => {
   const request = {};
   let next;
 
-  before(() => {
+  beforeAll(() => {
     const execute = [[{ id: 1, name: 'Produto A', quantity: 10}]];
     next = sinon.stub().returns();
 
@@ -117,7 +117,7 @@ describe('Verifica erros ao atualizar produto', () => {
     };
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 

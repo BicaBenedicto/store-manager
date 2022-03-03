@@ -8,7 +8,7 @@ describe('Verifica erros de controller em sales', () => {
   const request = {};
   let next;
 
-  before(() => {
+  beforeAll(() => {
     const execute = [[], []];
     next = sinon.stub().returns();
 
@@ -25,7 +25,7 @@ describe('Verifica erros de controller em sales', () => {
 
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 
@@ -76,7 +76,7 @@ describe('Verifica erros de controller de sales ao atualizar', () => {
   const request = {};
   let next;
 
-  before(async () => {
+  beforeAll(async () => {
     const execute = [[], []];
 
     next = sinon.stub().returns();
@@ -93,7 +93,7 @@ describe('Verifica erros de controller de sales ao atualizar', () => {
 
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 

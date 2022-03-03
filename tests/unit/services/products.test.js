@@ -4,14 +4,14 @@ const connection = require('../../../models/connection.model');
 const ProductsServices = require('../../../services/products.service');
 
 describe('Verifica services da rota products', () => {
-  before(() => {
+  beforeAll(() => {
     const execute = [[]];
 
     sinon.stub(connection, 'execute').resolves(execute);
 
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 

@@ -7,7 +7,7 @@ describe('Verifica controller de sales com rota get', () => {
   const response = {};
   const request = {};
 
-  before(async () => {
+  beforeAll(async () => {
     const execute = [[
       {
         "date": "2021-09-09T04:54:29.000Z",
@@ -34,7 +34,7 @@ describe('Verifica controller de sales com rota get', () => {
 
   });
 
-  after(async () => {
+  afterAll(async () => {
     connection.execute.restore();
   });
 
