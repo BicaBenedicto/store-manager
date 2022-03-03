@@ -90,9 +90,23 @@ describe('Verifica model de sales com rota post', () => {
 
   it('rota volta objeto ao utilizar post', async () => {
     const saleId = 1;
-    const productId = 1;
+    const productId = 2;
     const quantity = 11;
     const response = await SalesModels.create(saleId, productId, quantity);
+    expect(response).to.be.an('object');
+  });
+
+  it('rota volta objeto ao utilizar put', async () => {
+    const saleId = 1;
+    const productId = 1;
+    const quantity = 11;
+    const response = await SalesModels.update(saleId, productId, quantity);
+    expect(response).to.be.an('object');
+  });
+
+  it('rota volta objeto ao utilizar delete', async () => {
+    const saleId = 1;
+    const response = await SalesModels.remove(saleId);
     expect(response).to.be.an('object');
   });
 });
