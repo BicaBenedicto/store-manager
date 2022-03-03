@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const ProductsController = require('../../../controllers/products');
 const connection = require('../../../models/connection');
 
-describe('Verifica controller de produtos com rota post', () => {
+describe('Verifica controller de produtos com rota delete', () => {
   const response = {};
   const request = {};
   const next = (e) => console.log(e);

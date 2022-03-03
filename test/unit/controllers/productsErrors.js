@@ -79,7 +79,7 @@ describe('Verifica erros de controller em produtos', () => {
   });
 
   it('controller executa next de error em delete com id não existente', async () => {
-    await ProductsController.update(request, response, next);
+    await ProductsController.remove(request, response, next);
     expect(next.calledWith('productNotFound')).to.be.equal(true);
   });
   
