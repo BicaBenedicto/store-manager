@@ -1,6 +1,6 @@
 # Store Manager
 
-Criação de API, utilizando Node.js e a biblioteca Express, para gerenciamento de vendas e produtos, com diversas rotas para o gerenciamento e validações.
+Criação de API, utilizando Node.js e a biblioteca Express, para gerenciamento de vendas e produtos, com diversas rotas para o gerenciamento e validações. Com testes unitários
 ## Stack utilizada
 
 **Back-end:** Node.js, Express
